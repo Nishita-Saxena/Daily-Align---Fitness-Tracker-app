@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DailyAlign</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="logo">🔴 <strong>DailyAlign</strong></div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('about_us') }}">ABOUT US</a></li>
+        <li><a href="{{ url_for('login') }}">LOGIN</a></li>
+        <li><a href="{{ url_for('contact_us') }}">CONTACT US</a></li>
+      </ul>
+    </nav>
+    <a href="{{ url_for('register') }}" class="top-register">register now! →</a>
+  </header>
+
+  <main class="hero">
+    <div class="hero-text">
+        <button id="darkModeToggle" class="toggle-btn">
+              <span class="toggle-icon sun">☀️</span>
+              <span class="toggle-icon moon">🌙</span>
+        </button>
+      <h1>Track your health for a<br>more healthier and active life.</h1>
+      <p>Your daily dose of wellness — track your meals, steps, sleep, and feel your best everyday!</p>
+      <a href="{{ url_for('register') }}" class="main-register">register now! →</a>
+    </div>
+    <div class="hero-image">
+      <img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Free-Desktop-Fitness-Wallpapers-Images.jpg" alt="fitness Image">
+    </div>
+  </main>
+</body>
+</html>
+
+
+
+
+<script>
+  const toggle = document.getElementById('darkModeToggle');
+  const body = document.body;
+
+
+  if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark-mode');
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+
+
+    if (body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  });
+</script>

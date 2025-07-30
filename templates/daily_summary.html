@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log Meal - Health Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e5fae5, #a3e4a3);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-container {
+      display: grid;
+      grid-template-areas:
+        "sidebar header"
+        "sidebar content"
+        "sidebar footer";
+      grid-template-columns: 240px 1fr;
+      grid-template-rows: auto 1fr auto;
+      gap: 20px;
+      max-width: 1400px;
+      width: 100%;
+      background: rgba(7,146,112,0.85);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    header {
+      grid-area: header;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    header h2 { font-size: 2.2rem; font-weight: 800; }
+
+    .logout_btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background-color: #C5577F;
+  color: #fff;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.logout_btn:hover {
+  background-color: #E94460;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(233, 68, 96, 0.4);
+}
+
+.logout_btn:focus {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.logout_btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+    nav.sidebar {
+      grid-area: sidebar;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 10px;
+    }
+    nav.sidebar a {
+      position: relative;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      text-decoration: none;
+      color: #f1f1f1;
+      font-weight: 500;
+      transition: background 0.3s, transform 0.2s;
+    }
+    nav.sidebar a:hover, nav.sidebar a.active {
+      background: rgba(255,255,255,0.2);
+      transform: translateX(4px);
+    }
+    nav.sidebar a.active::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 60%;
+      background: #fafae5;
+      border-radius: 2px;
+    }
+
+    main.content {
+      grid-area: content;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .tracker-box {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+    .tracker-box:hover { transform: translateY(-6px); }
+    .tracker-box p { margin-top: 12px; font-weight: 500; color: #eef; }
+
+    .ring {
+      --value:0; --max:100; --color:#fff;
+      width: 120px; height: 120px;
+      margin: auto;
+    }
+    .ring svg { transform: rotate(-90deg); }
+    .ring circle {
+      fill:none; stroke-width: 10; cx:60; cy:60; r:54;
+    }
+    .progress { stroke: var(--color); stroke-linecap: round;
+      stroke-dasharray:339.292; stroke-dashoffset:339.292;
+      animation: progress 1.2s forwards ease-in-out;
+    }
+    @keyframes progress {
+      to { stroke-dashoffset: calc(339.292 - (339.292 * var(--value))/var(--max)); }
+    }
+
+    .suggestion-btn {
+      grid-area: footer;
+      margin: 10px;
+      color:#ffffff;
+      padding: 16px 36px;
+      background: #1c3e7a;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(28,62,122,0.5);
+      transition: background 0.3s, transform 0.2s;
+    }
+    .suggestion-btn:hover { background: #122a56; transform: translateY(-3px); }
+
+    footer {
+      grid-area: footer;
+      text-align: center;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Responsive */
+    @media (max-width:1040px){
+      .profile-container { grid-template-columns: 200px 1fr; }
+    }
+    @media (max-width:768px){
+      .profile-container {
+        grid-template-areas:
+          "header"
+          "content"
+          "sidebar"
+          "footer";
+        grid-template-columns: 1fr;
+      }
+      nav.sidebar { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 8px; }
+    }
+ 
+ 
+ .summary-container {
+  grid-area: content;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #fff;
+}
+
+.summary-container h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #fefefe;
+}
+
+.summary-container h3 {
+  font-weight: 500;
+  color: #d6ffe8;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s, background 0.3s;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-4px);
+}
+
+.card h4 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 8px;
+}
+
+.card ul li {
+  margin-bottom: 6px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #f0f9f2;
+}
+
+.card p {
+  margin-top: 10px;
+  font-weight: 500;
+  color: #fdfdfd;
+  font-size: 1.05rem;
+}
+
+@keyframes fadeInUp {
+  0% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .summary-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    padding: 18px 20px;
+  }
+
+  .card h4 {
+    font-size: 1.25rem;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <header>
+      <h2>HELLO {{ name }}!</h2>
+      <a href="{{ url_for('logout') }}" class="logout_btn">Logout</a>
+    </header>
+
+    <nav class="sidebar">
+    <a href="{{ url_for('profile') }}">View Profile</a>
+        <br>
+        <br>
+      <a href="{{ url_for('log_meal') }}">Log Meal</a>
+      <a href="{{ url_for('log_sleep') }}">Log Sleep</a>
+      <a href="{{ url_for('log_steps') }}">Log Steps</a>
+      <a href="{{ url_for('log_workout') }}">Log Workout</a>
+      <a href="{{ url_for('bmi') }}">BMI Calculator</a>
+      <a href="{{ url_for('daily_summary') }}">Daily Summary</a>
+    </nav>
+
+   <div class="summary-container">
+        
+        <h3>Your Wellness Snapshot for Today</h3>
+
+        <div class="card">
+            <h4>🥗 Meals Consumed</h4>
+            {% if meals %}
+            <ul>
+                {% for item, cal in meals %}
+                    <li><strong>{{ item }}</strong> – {{ cal }} kcal</li>
+                {% endfor %}
+            </ul>
+            <p><strong>Total Calories Consumed:</strong> {{ total_calories_eaten }} kcal</p>
+            {% else %}
+            <p>No meals logged yet today.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+    <h4>🔥 Calories Burned</h4>
+    <p><strong>Total Burned:</strong> {{ total_calories_burned }} kcal</p>
+    <ul>
+        <li>👟 <strong>From Steps:</strong> {{ calories_burned_steps }} kcal</li>
+        <li>💪 <strong>From Workouts:</strong> {{ calories_burned_workouts }} kcal</li>
+    </ul>
+</div>
+
+
+        <div class="card">
+            <h4>😴 Sleep</h4>
+            <p><strong>Sleep Duration:</strong> {{ total_sleep }} hours</p>
+        </div>
+
+        <div class="card">
+            <h4>💡 Personalized Suggestions</h4>
+            <ul>
+                {% for msg in suggestions %}
+                    <li>{{ msg }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+  </div>
+</body>
+</html>

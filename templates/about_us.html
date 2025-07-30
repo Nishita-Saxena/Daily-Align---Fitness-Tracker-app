@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DailyAlign</title>
+  <style>
+      body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f2f6ff;
+  color: #333;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+}
+
+.logo {
+  font-size: 1.2rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #e26972;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background: #e26972;
+  bottom: -4px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+.top-register {
+  background-color: #e26972;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.top-register:hover {
+  background-color: #9f5f91;
+   transform: scale(1.05) ;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.main-register {
+  background-color: #e26972;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main-register:hover {
+    background-color: #9f5f91;
+  transform: scale(1.05);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+.toggle-btn {
+  position:relative;
+  width: 60px;
+  height: 30px;
+  border: none;
+  border-radius: 50px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  cursor: pointer;
+  transition: background-color 0.4s;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+.toggle-icon {
+  font-size: 14px;
+  color: #555;
+}
+
+.toggle-btn::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: #1f1f7a;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+
+.dark-mode .toggle-btn {
+  background-color: #222;
+}
+
+.dark-mode .toggle-btn::before {
+  transform: translateX(30px);
+}
+
+.dark-mode .sun {
+  color: #777;
+}
+
+.dark-mode .moon {
+  color: white;
+}
+
+
+.toggle-wrapper{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+
+
+
+
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+
+body.dark-mode header {
+  background-color: #1e1e1e;
+}
+
+
+body.dark-mode .logo {
+  color: #ffffff;
+}
+
+
+body.dark-mode nav a {
+  color: #cccccc;
+}
+
+body.dark-mode nav a:hover {
+  color: #ff8a80;
+}
+
+body.dark-mode nav a::after {
+  background: #ff8a80;
+}
+
+
+body.dark-mode .top-register {
+  background-color: #ff8a80;
+  color: #121212;
+}
+
+body.dark-mode .top-register:hover {
+  background-color: #ce5d7e;
+  box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.1);
+}
+
+
+body.dark-mode .hero {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .hero-text h1,
+body.dark-mode .hero-text p {
+  color: #e0e0e0;
+}
+
+
+body.dark-mode .main-register {
+  background-color: #ff8a80;
+  color: #121212;
+}
+
+body.dark-mode .main-register:hover {
+  background-color: #ce5d7e;
+  box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.1);
+}
+
+
+body.dark-mode .hero-image img {
+  filter: brightness(0.9);
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🔴 <strong>DailyAlign</strong></div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('about_us') }}">ABOUT US</a></li>
+        <li><a href="{{ url_for('login') }}">LOGIN</a></li>
+        <li><a href="{{ url_for('contact_us') }}">CONTACT US</a></li>
+      </ul>
+    </nav>
+    <a href="{{ url_for('register') }}" class="top-register">register now! →</a>
+  </header>
+
+  <main class="hero">
+    <div class="hero-text">
+        <button id="darkModeToggle" class="toggle-btn">
+              <span class="toggle-icon sun">☀️</span>
+              <span class="toggle-icon moon">🌙</span>
+        </button>
+      <h1>Track your health for a<br>more healthier and active life.</h1>
+      <p> At <strong>Daily Align</strong>, we believe that health is a journey—not a destination. Our mission is to empower you to take control of your wellness with simple, smart tools that fit into your everyday life. Whether you're aiming to lose weight, build muscle, or simply live healthier, we're here to help you stay aligned with your goals.
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; color: #888888;">
+      Our platform brings together everything you need to track and improve your health:
+    </p>
+
+    <ul style="font-size: 16px; line-height: 1.6; color: #888888; padding-left: 20px;">
+      <li><strong>Step Counter</strong> to monitor daily movement</li>
+      <li><strong>Calorie Tracker</strong> tailored to your diet preferences</li>
+      <li><strong>Workout Log</strong> to keep your fitness routines on point</li>
+      <li><strong>Sleep Tracker</strong> to ensure optimal recovery</li>
+      <li><strong>BMI Calculator</strong> to understand your body metrics</li>
+      <li>Goal-based tracking—whether you're focused on <strong>muscle gain</strong>, <strong>weight loss</strong>, or <strong>balanced living</strong></li>
+    </ul>
+
+    <p style="font-size: 16px; line-height: 1.6; color: #888888;">
+      With intuitive tracking, personalized insights, and science-backed guidance, <strong>Daily Align</strong> supports your lifestyle—no matter where you're starting from.
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; color: #888888;">
+      Join us and make your health goals part of your everyday routine. One step, one meal, one workout at a time—<strong>let’s align daily.</strong>
+    </p>
+      <a href="{{ url_for('register') }}" class="main-register">register now! →</a>
+    </div>
+  </main>
+</body>
+</html>
+
+
+
+
+<script>
+  const toggle = document.getElementById('darkModeToggle');
+  const body = document.body;
+
+
+  if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark-mode');
+  }
+
+  toggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+
+
+    if (body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  });
+</script>

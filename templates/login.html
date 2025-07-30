@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Health Tracker</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #bed1e3, #eefbd1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    animation: fadeIn 0.7s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-container {
+    background: #ffffff;
+    padding: 35px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    width: 370px;
+    border: 3px solid #dabbe0;
+    transition: transform 0.3s ease;
+  }
+
+  .form-container:hover {
+    transform: scale(1.01);
+  }
+
+  h2 {
+    text-align: center;
+    color: #4a6785;
+    margin-bottom: 25px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+
+  label {
+    display: block;
+    margin-top: 16px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 6px;
+    border: 2px solid #eefbd1;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9fded;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #93aeca;
+    outline: none;
+    background-color: #ffffff;
+  }
+
+  button {
+    margin-top: 24px;
+    width: 100%;
+    padding: 12px 0;
+    background: linear-gradient(90deg, #dabbe0, #bed1e3);
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #bed1e3, #dabbe0);
+    transform: scale(1.03);
+  }
+
+  .nav-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .nav-links a {
+    color: #5a80a5;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: #3a5870;
+    text-decoration: underline;
+  }
+
+  .flash-message {
+    color: #e74c3c;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+</style>
+
+</head>
+<body>
+  <div class="form-container">
+    <h2>Login</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-message">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div class="nav-links">
+      Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+    </div>
+  </div>
+</body>
+</html>

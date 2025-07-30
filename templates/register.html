@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - Health Tracker</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffe1e6, #fff1f4);
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+    animation: fadeIn 1s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    width: 400px;
+    border: 3px solid #f7c9d4;
+    transition: transform 0.3s ease;
+  }
+
+  .form-container:hover {
+    transform: scale(1.01);
+  }
+
+  h2 {
+    margin-bottom: 25px;
+    color: #c0392b;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  label {
+    display: block;
+    margin-top: 14px;
+    color: #34495e;
+    font-weight: 600;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 6px;
+    border: 2px solid #e0eea3;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border 0.3s, background 0.3s;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: #c8de9d;
+    background-color: #fafff0;
+  }
+
+  button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px 0;
+    background: linear-gradient(90deg, #f7c9d4, #ffe1e6);
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.4s ease, transform 0.2s ease;
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #ffe1e6, #f7c9d4);
+    transform: scale(1.03);
+  }
+
+  .nav-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .nav-links a {
+    color: #c0392b;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: #8e1b10;
+    text-decoration: underline;
+  }
+
+  .flash-message {
+    color: #e74c3c;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create Account</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-message">
+          {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register') }}">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" required />
+
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required />
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+
+      <label for="age">Age</label>
+      <input type="number" name="age" id="age" min="1" max="120" required />
+
+      <label for="height">Height (cm)</label>
+      <input type="number" name="height" id="height" step="0.1" required />
+
+      <label for="weight">Weight (kg)</label>
+      <input type="number" name="weight" id="weight" step="0.1" required />
+
+      <label for="goal">Goal</label>
+      <select name="goal" id="goal" required>
+        <option value="" disabled selected>Select your goal</option>
+        <option value="Lose Weight">Lose Weight</option>
+        <option value="Maintain Weight">Maintain Weight</option>
+        <option value="Gain Muscle">Gain Muscle</option>
+      </select>
+
+      <label for="diet_type">Diet Type</label>
+      <select name="diet_type" id="diet_type" required>
+        <option value="" disabled selected>Select diet type</option>
+        <option value="Vegetarian">Vegetarian</option>
+        <option value="Non-Veg">Non-Veg</option>
+        <option value="Vegan">Vegan</option>
+        <option value="Keto">Keto</option>
+        <option value="No Preference">No Preference</option>
+      </select>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="nav-links">
+      Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+    </div>
+  </div>
+</body>
+</html>

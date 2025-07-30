@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meal Suggestions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fef9f9;
+      color: #333;
+      padding: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff1f4;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+      color: #d14b8f;
+    }
+    .meal {
+      margin-top: 25px;
+    }
+    .meal h4 {
+      color: #ad2b66;
+      margin-bottom: 8px;
+    }
+    .meal p {
+      margin: 0;
+      padding: 8px 0;
+      background: #ffe1e6;
+      border-left: 5px solid #f07b9d;
+      padding-left: 15px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Personalized Indian Meal Plan</h2>
+    <p><strong>Goal:</strong> {{ goal }}</p>
+    <p><strong>Diet Type:</strong> {{ diet_type }}</p>
+
+    {% for meal, suggestion in meal_plan.items() %}
+      <div class="meal">
+        <h4>{{ meal }}</h4>
+        <p>{{ suggestion }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

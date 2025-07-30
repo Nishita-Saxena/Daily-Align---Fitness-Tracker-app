@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eefbd1;
+      display: flex;
+      justify-content: center;
+      padding: 50px 20px;
+    }
+    .profile-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #4d4d4d;
+      margin-bottom: 30px;
+    }
+    .profile-item {
+      margin-bottom: 15px;
+    }
+    .profile-item label {
+      display: block;
+      font-weight: bold;
+      color: #666;
+    }
+    .profile-item span {
+      display: block;
+      font-size: 1.1rem;
+      color: #333;
+      margin-top: 5px;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .back-link a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+    {% for key, value in user.items() %}
+      <div class="profile-item">
+        <label>{{ key.capitalize().replace('_', ' ') }}</label>
+        <span>{{ value }}</span>
+      </div>
+    {% endfor %}
+    <div class="back-link">
+      <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>
